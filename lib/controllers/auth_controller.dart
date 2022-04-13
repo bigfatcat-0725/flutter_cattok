@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_cattok/models/user.dart' as model;
 import 'package:flutter_cattok/views/home_screen.dart';
-import 'package:flutter_cattok/views/login_screen.dart';
+import 'package:flutter_cattok/views/auth/login_screen.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
+  static AuthController instance = Get.find();
+
   late Rx<User?> _user;
   User get user => _user.value!;
 
@@ -44,10 +46,22 @@ class AuthController extends GetxController {
             .doc(cred.user!.uid)
             .set(user.toJson());
       } else {
-        Get.snackbar('Error Creating Account', 'Please enter all the fields');
+        Get.snackbar(
+          'Error Creating Account',
+          'Please enter all the fields',
+          duration: Duration(
+            seconds: 1,
+          ),
+        );
       }
     } catch (e) {
-      Get.snackbar('Error Creating Account', e.toString());
+      Get.snackbar(
+        'Error Creating Account',
+        e.toString(),
+        duration: Duration(
+          seconds: 1,
+        ),
+      );
     }
   }
 
@@ -57,10 +71,22 @@ class AuthController extends GetxController {
         await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
       } else {
-        Get.snackbar('Error Login', 'Please enter all the fields');
+        Get.snackbar(
+          'Error Login',
+          'Please enter all the fields',
+          duration: Duration(
+            seconds: 1,
+          ),
+        );
       }
     } catch (e) {
-      Get.snackbar('Error Login', e.toString());
+      Get.snackbar(
+        'Error Login',
+        e.toString(),
+        duration: Duration(
+          seconds: 1,
+        ),
+      );
     }
   }
 

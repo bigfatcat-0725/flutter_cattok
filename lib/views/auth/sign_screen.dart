@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cattok/views/sign_screen.dart';
+import 'package:flutter_cattok/constants.dart';
+import 'package:flutter_cattok/views/auth/login_screen.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignScreen extends StatelessWidget {
+  SignScreen({Key? key}) : super(key: key);
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +47,7 @@ class LoginScreen extends StatelessWidget {
                     height: 25,
                   ),
                   TextField(
+                    controller: _emailController,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -61,6 +67,7 @@ class LoginScreen extends StatelessWidget {
                     height: 25,
                   ),
                   TextField(
+                    controller: _passwordController,
                     cursorColor: Colors.black,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -80,11 +87,46 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(
                     height: 25,
                   ),
+                  TextField(
+                    controller: _confirmController,
+                    cursorColor: Colors.black,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.black,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      hintText: 'Confirm Password',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
                   Container(
                     width: 75,
                     height: 75,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        if (_passwordController.text ==
+                            _confirmController.text) {
+                          authController.registerUser(
+                              _emailController.text, _passwordController.text);
+                        } else {
+                          Get.snackbar(
+                            'Error Creating Account',
+                            'Please confirm password fields',
+                            duration: Duration(
+                              seconds: 1,
+                            ),
+                          );
+                        }
+                      },
                       child: Center(
                         child: Image.asset(
                           'assets/paw.png',
@@ -100,13 +142,13 @@ class LoginScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Don't have an account? "),
+                      Text("Already have an account? "),
                       InkWell(
                         onTap: () {
-                          Get.to(() => SignScreen());
+                          Get.to(() => LoginScreen());
                         },
                         child: Text(
-                          'Register',
+                          'Login',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,

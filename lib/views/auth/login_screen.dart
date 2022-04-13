@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cattok/views/login_screen.dart';
+import 'package:flutter_cattok/constants.dart';
+import 'package:flutter_cattok/views/auth/sign_screen.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignScreen extends StatelessWidget {
-  SignScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  LoginScreen({Key? key}) : super(key: key);
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -44,6 +45,7 @@ class SignScreen extends StatelessWidget {
                     height: 25,
                   ),
                   TextField(
+                    controller: _emailController,
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -57,27 +59,6 @@ class SignScreen extends StatelessWidget {
                         borderSide: BorderSide(color: Colors.black),
                       ),
                       hintText: 'Email',
-                    ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  TextField(
-                    controller: _emailController,
-                    cursorColor: Colors.black,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: Colors.black,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      hintText: 'Password',
                     ),
                   ),
                   SizedBox(
@@ -98,7 +79,7 @@ class SignScreen extends StatelessWidget {
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.black),
                       ),
-                      hintText: 'Confirm Password',
+                      hintText: 'Password',
                     ),
                   ),
                   SizedBox(
@@ -108,7 +89,10 @@ class SignScreen extends StatelessWidget {
                     width: 75,
                     height: 75,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        authController.loginUser(
+                            _emailController.text, _passwordController.text);
+                      },
                       child: Center(
                         child: Image.asset(
                           'assets/paw.png',
@@ -124,13 +108,13 @@ class SignScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Already have an account? "),
+                      Text("Don't have an account? "),
                       InkWell(
                         onTap: () {
-                          Get.to(() => LoginScreen());
+                          Get.to(() => SignScreen());
                         },
                         child: Text(
-                          'Login',
+                          'Register',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
